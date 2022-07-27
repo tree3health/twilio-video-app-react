@@ -22,15 +22,19 @@ export default function PreJoinScreens() {
   const [roomName, setRoomName] = useState<string>('');
 
   const [mediaError, setMediaError] = useState<Error>();
+  const queryParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
-    if (URLRoomName) {
+    const username = queryParams.get('name');
+    if (URLRoomName && username) {
       setRoomName(URLRoomName);
-      if (user?.displayName) {
-        setStep(Steps.deviceSelectionStep);
-      }
+      setName(username);
+      // if (user?.displayName) {
+      //   setStep(Steps.deviceSelectionStep);
+      // }
+      setStep(Steps.deviceSelectionStep);
     }
-  }, [user, URLRoomName]);
+  }, [user, URLRoomName, name]);
 
   useEffect(() => {
     if (step === Steps.deviceSelectionStep && !mediaError) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Typography, Grid, Button, Theme, Hidden } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview';
@@ -60,16 +60,58 @@ interface DeviceSelectionScreenProps {
 
 export default function DeviceSelectionScreen({ name, roomName, setStep }: DeviceSelectionScreenProps) {
   const classes = useStyles();
-  const { getToken, isFetching } = useAppState();
+  const { getToken, isFetching, setError } = useAppState();
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
+  const [isHK, setHK] = useState(false);
 
   const handleJoin = () => {
-    getToken(name, roomName).then(({ token }) => {
-      videoConnect(token);
-      process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
-    });
+    checkLocation();
+    if (isHK) {
+      getToken(name, roomName).then(({ token }) => {
+        videoConnect(token);
+        process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
+      });
+    }
+  };
+
+  const checkLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        const { latitude, longitude } = position.coords;
+        return fetch('https://t3h-geolocation-uccixrya5a-de.a.run.app/getCountry', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({ lat: latitude, lng: longitude }),
+        })
+          .then(async res => {
+            const jsonResponse = await res.json();
+            if (!res.ok || jsonResponse !== 'HK') {
+              const recordingError = new Error(
+                jsonResponse.error?.message ||
+                  'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you.'
+              );
+              recordingError.code = jsonResponse.error?.code;
+              setHK(false);
+              return Promise.reject(recordingError);
+            } else {
+              setHK(true);
+            }
+          })
+          .catch(err => {
+            setError(err);
+            setHK(false);
+          });
+      },
+      function(e) {
+        setError(new Error(e.message));
+        console.error(e.message);
+        setHK(false);
+      }
+    );
   };
 
   if (isFetching || isConnecting) {
