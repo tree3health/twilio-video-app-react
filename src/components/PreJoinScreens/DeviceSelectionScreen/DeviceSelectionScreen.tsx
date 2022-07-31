@@ -65,10 +65,19 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
   const [isHK, setHK] = useState(false);
+  const queryParams = new URLSearchParams(window.location.search);
 
   const handleJoin = () => {
-    checkLocation();
-    if (isHK) {
+    const service = queryParams.get('service');
+    if (service === 'prudential') {
+      checkLocation();
+      if (isHK) {
+        getToken(name, roomName).then(({ token }) => {
+          videoConnect(token);
+          process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
+        });
+      }
+    } else {
       getToken(name, roomName).then(({ token }) => {
         videoConnect(token);
         process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
@@ -132,7 +141,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   return (
     <>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join {roomName}
+        Join 加入{roomName}
       </Typography>
 
       <Grid container justifyContent="center">
@@ -145,7 +154,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               <ToggleAudioButton className={classes.mobileButton} disabled={disableButtons} />
               <ToggleVideoButton className={classes.mobileButton} disabled={disableButtons} />
             </Hidden>
-            <SettingsMenu mobileButtonClass={classes.mobileButton} />
+            {/* <SettingsMenu mobileButtonClass={classes.mobileButton} /> */}
           </div>
         </Grid>
         <Grid item md={5} sm={12} xs={12}>
@@ -158,7 +167,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             </div>
             <div className={classes.joinButtons}>
               <Button variant="outlined" color="primary" onClick={() => setStep(Steps.roomNameStep)}>
-                Cancel
+                Cancel 取消
               </Button>
               <Button
                 variant="contained"
@@ -167,7 +176,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
                 onClick={handleJoin}
                 disabled={disableButtons}
               >
-                Join Now
+                Join Now 加入
               </Button>
             </div>
           </Grid>
