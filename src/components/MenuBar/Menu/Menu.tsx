@@ -54,7 +54,7 @@ export default function Menu(props: { buttonClassName?: string }) {
           <MoreIcon />
         ) : (
           <>
-            More
+            More 更多
             <ExpandMoreIcon />
           </>
         )}
@@ -76,7 +76,7 @@ export default function Menu(props: { buttonClassName?: string }) {
           <IconContainer>
             <SettingsIcon />
           </IconContainer>
-          <Typography variant="body1">Audio and Video Settings</Typography>
+          <Typography variant="body1">Audio and Video Settings 音頻和視頻設置</Typography>
         </MenuItem>
 
         {isSupported && (
@@ -90,7 +90,7 @@ export default function Menu(props: { buttonClassName?: string }) {
             <IconContainer>
               <BackgroundIcon />
             </IconContainer>
-            <Typography variant="body1">Backgrounds</Typography>
+            <Typography variant="body1">Backgrounds 背景</Typography>
           </MenuItem>
         )}
 
@@ -130,14 +130,14 @@ export default function Menu(props: { buttonClassName?: string }) {
           <IconContainer>
             <SearchIcon style={{ fill: '#707578', width: '0.9em' }} />
           </IconContainer>
-          <Typography variant="body1">Room Monitor</Typography>
+          <Typography variant="body1">Room Monitor 房間監視器</Typography>
         </MenuItem>
 
         <MenuItem onClick={() => setAboutOpen(true)}>
           <IconContainer>
             <InfoIconOutlined />
           </IconContainer>
-          <Typography variant="body1">About</Typography>
+          <Typography variant="body1">About 關於</Typography>
         </MenuItem>
       </MenuContainer>
       <AboutDialog

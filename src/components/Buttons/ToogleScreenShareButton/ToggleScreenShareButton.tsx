@@ -8,10 +8,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import useScreenShareParticipant from '../../../hooks/useScreenShareParticipant/useScreenShareParticipant';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
 
-export const SCREEN_SHARE_TEXT = 'Share Screen';
-export const STOP_SCREEN_SHARE_TEXT = 'Stop Sharing Screen';
-export const SHARE_IN_PROGRESS_TEXT = 'Cannot share screen when another user is sharing';
-export const SHARE_NOT_SUPPORTED_TEXT = 'Screen sharing is not supported with this browser';
+export const SCREEN_SHARE_TEXT = 'Share Screen 分享螢幕';
+export const STOP_SCREEN_SHARE_TEXT = 'Stop Sharing Screen 停止分享螢幕';
+export const SHARE_IN_PROGRESS_TEXT = 'Cannot share screen when another user is sharing 其他用戶共享時無法共享屏幕';
+export const SHARE_NOT_SUPPORTED_TEXT = 'Screen sharing is not supported with this browser 此瀏覽器不支持屏幕共享';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, Typography, Grid, Button, Theme, Hidden } from '@material-ui/core';
+import { makeStyles, Typography, Grid, Button, Theme, Hidden, Backdrop } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview';
 import SettingsMenu from './SettingsMenu/SettingsMenu';
@@ -64,25 +64,27 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
+  const [disaleButton, setDisableButton] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [isHK, setHK] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
 
-  const handleJoin = () => {
+  useEffect(() => {
+    setDisableButton(!isHK || isFetching || isAcquiringLocalTracks || isConnecting);
+  }, [isHK]);
+
+  useEffect(() => {
     const service = queryParams.get('service');
     if (service === 'prudential') {
       checkLocation();
-      if (isHK) {
-        getToken(name, roomName).then(({ token }) => {
-          videoConnect(token);
-          process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
-        });
-      }
-    } else {
-      getToken(name, roomName).then(({ token }) => {
-        videoConnect(token);
-        process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
-      });
     }
+  }, []);
+
+  const handleJoin = () => {
+    getToken(name, roomName).then(({ token }) => {
+      videoConnect(token);
+      process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
+    });
   };
 
   const checkLocation = () => {
@@ -101,23 +103,31 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             if (!res.ok || jsonResponse !== 'HK') {
               const recordingError = new Error(
                 jsonResponse.error?.message ||
-                  'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you.'
+                  'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
               );
               recordingError.code = jsonResponse.error?.code;
               setHK(false);
+              setLoading(false);
               return Promise.reject(recordingError);
             } else {
+              setLoading(false);
               setHK(true);
             }
           })
           .catch(err => {
             setError(err);
+            setLoading(false);
             setHK(false);
           });
       },
       function(e) {
-        setError(new Error(e.message));
+        setError(
+          new Error(
+            'Sorry, this service is only available in Hong Kong, please enable your location information, thank you. 抱歉，本服務只限於香港境內進行，請開啟你的位置資訊，謝謝。'
+          )
+        );
         console.error(e.message);
+        setLoading(false);
         setHK(false);
       }
     );
@@ -131,7 +141,8 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
         </div>
         <div>
           <Typography variant="body2" style={{ fontWeight: 'bold', fontSize: '16px' }}>
-            Joining Meeting
+            <div>Joining Meeting</div>
+            <div>加入會議</div>
           </Typography>
         </div>
       </Grid>
@@ -140,8 +151,11 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
 
   return (
     <>
+      <Backdrop style={{ zIndex: 99999, color: '#fff' }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join 加入{roomName}
+        Join 加入 <div>{roomName}</div>
       </Typography>
 
       <Grid container justifyContent="center">
@@ -166,16 +180,15 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               </Hidden>
             </div>
             <div className={classes.joinButtons}>
-              <Button variant="outlined" color="primary" onClick={() => setStep(Steps.roomNameStep)}>
+              <Button
+                style={{ marginRight: '10px' }}
+                variant="outlined"
+                color="primary"
+                onClick={() => setStep(Steps.roomNameStep)}
+              >
                 Cancel 取消
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                data-cy-join-now
-                onClick={handleJoin}
-                disabled={disableButtons}
-              >
+              <Button variant="contained" color="primary" data-cy-join-now onClick={handleJoin} disabled={disaleButton}>
                 Join Now 加入
               </Button>
             </div>
