@@ -102,6 +102,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
         })
           .then(async res => {
             const jsonResponse = await res.json();
+            console.log('jsonResponse', jsonResponse);
             if (!res.ok || jsonResponse !== 'HK') {
               const recordingError = new Error(
                 jsonResponse.error?.message ||
@@ -114,6 +115,16 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             } else {
               const res = await fetch('https://geolocation-db.com/json/');
               const data = await res.json();
+              if (data.IPv4 === 'Not found') {
+                const recordingError = new Error(
+                  jsonResponse.error?.message ||
+                    'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
+                );
+                recordingError.code = jsonResponse.error?.code;
+                setLoading(false);
+                setHK(false);
+                return Promise.reject(recordingError);
+              }
               const ip = await fetch(`https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data.IPv4}`, {
                 method: 'POST',
                 headers: {
@@ -121,6 +132,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
                 },
               });
               const ipResult = await ip.json();
+              console.log('ipResult', ipResult);
               if (!ipResult) {
                 setLoading(false);
                 setHK(true);
