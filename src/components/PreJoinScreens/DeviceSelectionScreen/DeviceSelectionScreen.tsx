@@ -77,6 +77,8 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
     const service = queryParams.get('service');
     if (service === 'prudential') {
       checkLocation();
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -110,8 +112,28 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               setLoading(false);
               return Promise.reject(recordingError);
             } else {
-              setLoading(false);
-              setHK(true);
+              const res = await fetch('https://geolocation-db.com/json/');
+              const data = await res.json();
+              const ip = await fetch(`https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data.IPv4}`, {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json',
+                },
+              });
+              const ipResult = await ip.json();
+              if (!ipResult) {
+                setLoading(false);
+                setHK(true);
+              } else {
+                const recordingError = new Error(
+                  jsonResponse.error?.message ||
+                    'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
+                );
+                recordingError.code = jsonResponse.error?.code;
+                setLoading(false);
+                setHK(false);
+                return Promise.reject(recordingError);
+              }
             }
           })
           .catch(err => {
