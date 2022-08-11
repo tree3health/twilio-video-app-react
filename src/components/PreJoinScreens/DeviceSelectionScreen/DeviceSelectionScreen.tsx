@@ -9,6 +9,7 @@ import ToggleVideoButton from '../../Buttons/ToggleVideoButton/ToggleVideoButton
 import { useAppState } from '../../../state';
 import useChatContext from '../../../hooks/useChatContext/useChatContext';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
+import { publicIpv4 } from 'public-ip';
 
 const useStyles = makeStyles((theme: Theme) => ({
   gutterBottom: {
@@ -112,9 +113,11 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               setLoading(false);
               return Promise.reject(recordingError);
             } else {
-              const res = await fetch('https://geolocation-db.com/json/');
-              const data = await res.json();
-              const ip = await fetch(`https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data.IPv4}`, {
+              const data = await publicIpv4();
+              // const res = await fetch('https://geolocation-db.com/json/');
+              // const data = await res.json();
+              console.log(data);
+              const ip = await fetch(`https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data}`, {
                 method: 'POST',
                 headers: {
                   'content-type': 'application/json',
