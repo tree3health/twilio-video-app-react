@@ -126,7 +126,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               //   return Promise.reject(recordingError);
               // }
               console.log(data.ip);
-              const ip = await fetch(`https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data}`, {
+              const ip = await fetch(`https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data.ip}`, {
                 method: 'POST',
                 headers: {
                   'content-type': 'application/json',
