@@ -140,7 +140,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               } else {
                 const recordingError = new Error(
                   jsonResponse.error?.message ||
-                    'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
+                    'Sorry, the Tele-Medical Examination is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，視像體檢只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
                 );
                 recordingError.code = jsonResponse.error?.code;
                 setLoading(false);
@@ -158,7 +158,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       function(e) {
         setError(
           new Error(
-            'Sorry, this service is only available in Hong Kong, please enable your location information, thank you. 抱歉，本服務只限於香港境內進行，請開啟你的位置資訊，謝謝。'
+            'Sorry, the Tele-Medical Examination is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，視像體檢只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
           )
         );
         console.error(e.message);
