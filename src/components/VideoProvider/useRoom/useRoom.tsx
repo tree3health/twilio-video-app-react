@@ -29,7 +29,8 @@ export default function useRoom(localTracks: LocalTrack[], onError: Callback, op
 
           // This app can add up to 13 'participantDisconnected' listeners to the room object, which can trigger
           // a warning from the EventEmitter object. Here we increase the max listeners to suppress the warning.
-          newRoom.setMaxListeners(15);
+
+          newRoom.setMaxListeners(2);
 
           newRoom.once('disconnected', () => {
             // Reset the room only after all other `disconnected` listeners have been called.

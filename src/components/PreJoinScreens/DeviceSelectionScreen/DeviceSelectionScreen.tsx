@@ -64,14 +64,14 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
-  const [disaleButton, setDisableButton] = useState(true);
+  const [disaleButton, setDisableButton] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isHK, setHK] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
     setDisableButton(!isHK || isFetching || isAcquiringLocalTracks || isConnecting);
-  }, [isHK]);
+  }, [isHK, isFetching, isAcquiringLocalTracks, isConnecting]);
 
   useEffect(() => {
     const service = queryParams.get('service');
@@ -80,10 +80,13 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
     } else {
       setLoading(false);
     }
+
+    console.log('v2');
   }, []);
 
   const handleJoin = () => {
     getToken(name, roomName).then(({ token }) => {
+      console.log('token', token);
       videoConnect(token);
       process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
     });
@@ -150,7 +153,11 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             }
           })
           .catch(err => {
-            setError(err);
+            setError(
+              new Error(
+                'Sorry, the Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location. \n 抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您。'
+              )
+            );
             setLoading(false);
             setHK(false);
           });

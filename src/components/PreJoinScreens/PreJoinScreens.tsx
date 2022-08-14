@@ -28,7 +28,16 @@ export default function PreJoinScreens() {
     const username = queryParams.get('name');
     if (URLRoomName && username) {
       setRoomName(URLRoomName);
-      setName(username);
+      if (name === '') {
+        setName(
+          Math.random()
+            .toString(36)
+            .substr(2, 5) +
+            ' ' +
+            username
+        );
+      }
+
       // if (user?.displayName) {
       //   setStep(Steps.deviceSelectionStep);
       // }
