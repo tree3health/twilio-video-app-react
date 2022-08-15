@@ -64,7 +64,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
-  const [disaleButton, setDisableButton] = useState(true);
+  const [disableButton, setDisableButton] = useState(true);
   const [loading, setLoading] = useState(true);
   const [isHK, setHK] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
@@ -109,7 +109,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             if (!res.ok || jsonResponse !== 'HK') {
               const recordingError = new Error(
                 jsonResponse.error?.message ||
-                  'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
+                  'Sorry, the Tele-Medical Examination is only available within Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
               );
               recordingError.code = jsonResponse.error?.code;
               setHK(false);
@@ -230,7 +230,13 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
               >
                 Cancel 取消
               </Button>
-              <Button variant="contained" color="primary" data-cy-join-now onClick={handleJoin} disabled={disaleButton}>
+              <Button
+                variant="contained"
+                color="primary"
+                data-cy-join-now
+                onClick={handleJoin}
+                disabled={disableButton}
+              >
                 Join Now 加入
               </Button>
             </div>
