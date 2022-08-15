@@ -64,7 +64,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
-  const [disaleButton, setDisableButton] = useState(false);
+  const [disaleButton, setDisableButton] = useState(true);
   const [loading, setLoading] = useState(true);
   const [isHK, setHK] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
@@ -81,7 +81,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       setLoading(false);
     }
 
-    console.log('v2');
+    console.log('v3');
   }, []);
 
   const handleJoin = () => {
@@ -155,7 +155,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
           .catch(err => {
             setError(
               new Error(
-                'Sorry, the Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location. \n 抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您。'
+                'Sorry, the Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location. \n 抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的位置。'
               )
             );
             setLoading(false);
