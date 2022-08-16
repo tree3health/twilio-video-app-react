@@ -147,7 +147,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
                 const recordingError = new Error(
                   jsonResponse.error?.message ||
                     'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your VPN to verify your location.' +
-                      '抱歉，視像體驗只限於香港境內進行，請關閉您的虛擬私人網路(VPN)以驗證您的地理位置。'
+                      '抱歉，視像體檢只限於香港境內進行，請關閉您的虛擬私人網路(VPN)以驗證您的地理位置。'
                 );
                 recordingError.code = jsonResponse.error?.code;
                 setLoading(false);
@@ -162,7 +162,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
                 new Error(
                   err.message ||
                     'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
-                      '抱歉，視像體驗只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。'
+                      '抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。'
                 )
               );
               setLoading(false);
