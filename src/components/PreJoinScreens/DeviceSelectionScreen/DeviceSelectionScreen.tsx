@@ -93,7 +93,6 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
     } else {
       setLoading(false);
     }
-    checkLocation();
     console.log('v3');
   }, []);
 
