@@ -160,9 +160,8 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             if (err) {
               setError(
                 new Error(
-                  err.message ||
-                    'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
-                      '抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。'
+                  'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
+                    '抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。'
                 )
               );
               setLoading(false);
