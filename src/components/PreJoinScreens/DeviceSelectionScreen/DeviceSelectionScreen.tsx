@@ -52,6 +52,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const errorMessage = {
+  notInHk:
+    'Sorry, Tele-Medical Examination is only available in Hong Kong, please retry after arriving in Hong Kong, thank you.' +
+    '抱歉，視像體檢只限於香港境內進行，請於抵達香港範圍後進行，謝謝。',
+  vpn:
+    'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your VPN to verify your location.' +
+    '抱歉，視像體檢只限於香港境內進行，請關閉您的虛擬私人網路(VPN)以驗證您的地理位置。',
+  extensions:
+    'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
+    '抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。',
+  failed: 'Failed to fetch',
+};
+
 interface DeviceSelectionScreenProps {
   name: string;
   roomName: string;
@@ -80,6 +93,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
     } else {
       setLoading(false);
     }
+    checkLocation();
     console.log('v3');
   }, []);
 
@@ -106,11 +120,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             const jsonResponse = await res.json();
             console.log('jsonResponse', jsonResponse);
             if (!res.ok || jsonResponse !== 'HK') {
-              const recordingError = new Error(
-                jsonResponse.error?.message ||
-                  'Sorry, Tele-Medical Examination is only available in Hong Kong, please retry after arriving in Hong Kong, thank you.' +
-                    '抱歉，視像體檢只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
-              );
+              const recordingError = new Error(jsonResponse.error?.message || errorMessage.notInHk);
               recordingError.code = jsonResponse.error?.code;
               setHK(false);
               setLoading(false);
@@ -144,11 +154,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
                 setLoading(false);
                 setHK(true);
               } else {
-                const recordingError = new Error(
-                  jsonResponse.error?.message ||
-                    'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your VPN to verify your location.' +
-                      '抱歉，視像體檢只限於香港境內進行，請關閉您的虛擬私人網路(VPN)以驗證您的地理位置。'
-                );
+                const recordingError = new Error(jsonResponse.error?.message || errorMessage.vpn);
                 recordingError.code = jsonResponse.error?.code;
                 setLoading(false);
                 setHK(false);
@@ -158,24 +164,14 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
           })
           .catch(err => {
             if (err) {
-              setError(
-                new Error(
-                  'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
-                    '抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。'
-                )
-              );
+              setError(new Error(err.message === errorMessage.failed ? errorMessage.extensions : err.message));
               setLoading(false);
               setHK(false);
             }
           });
       },
       function(e) {
-        setError(
-          new Error(
-            'Sorry, Tele-Medical Examination is only available in Hong Kong, please retry after arriving in Hong Kong, thank you.' +
-              '抱歉，視像體檢只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
-          )
-        );
+        setError(new Error(errorMessage.notInHk));
         console.error(e.message);
         setLoading(false);
         setHK(false);
