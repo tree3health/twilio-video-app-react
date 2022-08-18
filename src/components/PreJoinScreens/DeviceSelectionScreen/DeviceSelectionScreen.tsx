@@ -57,11 +57,14 @@ const errorMessage = {
     'Sorry, Tele-Medical Examination is only available in Hong Kong, please retry after arriving in Hong Kong, thank you.' +
     '抱歉，視像體檢只限於香港境內進行，請於抵達香港範圍後進行，謝謝。',
   vpn:
-    'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your VPN to verify your location.' +
+    'Sorry, Tele-Medical Examination is only available within Hong Kong, please disable your VPN to verify your location.' +
     '抱歉，視像體檢只限於香港境內進行，請關閉您的虛擬私人網路(VPN)以驗證您的地理位置。',
   extensions:
-    'Sorry,  Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
+    'Sorry, Tele-Medical Examination is only available within Hong Kong, please disable your third party extensions to verify your location.' +
     '抱歉，視像體檢只限於香港境內進行，請關閉您的第三方擴充功能以驗證您的地理位置。',
+  permission:
+    'Sorry, Tele-Medical Examination is only available in Hong Kong, Please enable your location information.' +
+    '抱歉，視像體檢只限於香港境內進行，請開啟你的位置資訊，謝謝。',
   failed: 'Failed to fetch',
 };
 
@@ -170,7 +173,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
           });
       },
       function(e) {
-        setError(new Error(errorMessage.notInHk));
+        setError(new Error(errorMessage.permission));
         console.error(e.message);
         setLoading(false);
         setHK(false);
