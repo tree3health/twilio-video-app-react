@@ -86,7 +86,12 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const queryParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
-    setDisableButton(!isHK || isFetching || isAcquiringLocalTracks || isConnecting);
+    const service = queryParams.get('service');
+    if (service === 'prudential') {
+      setDisableButton(!isHK || isFetching || isAcquiringLocalTracks || isConnecting);
+    } else {
+      setDisableButton(isFetching || isAcquiringLocalTracks);
+    }
   }, [isHK, isFetching, isAcquiringLocalTracks, isConnecting]);
 
   useEffect(() => {
@@ -101,7 +106,6 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
 
   const handleJoin = () => {
     getToken(name, roomName).then(({ token }) => {
-      console.log('token', token);
       videoConnect(token);
       process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
     });
