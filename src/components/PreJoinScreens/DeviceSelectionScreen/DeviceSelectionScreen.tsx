@@ -9,6 +9,7 @@ import ToggleVideoButton from '../../Buttons/ToggleVideoButton/ToggleVideoButton
 import { useAppState } from '../../../state';
 import useChatContext from '../../../hooks/useChatContext/useChatContext';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
+import CommonDialog from '../../CommonDialog/CommonDialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
   gutterBottom: {
@@ -83,6 +84,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const [disableButton, setDisableButton] = useState(true);
   const [loading, setLoading] = useState(true);
   const [isHK, setHK] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
@@ -102,6 +104,13 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       setLoading(false);
     }
     console.log('v3');
+  }, []);
+
+  useEffect(() => {
+    const type = queryParams.get('type');
+    if (type === 'i') {
+      setDialogOpen(true);
+    }
   }, []);
 
   const handleJoin = () => {
@@ -134,16 +143,6 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             } else {
               const res = await fetch('https://api.ipify.org/?format=json');
               const data = await res.json();
-              // if (data.IPv4 === 'Not found') {
-              //   const recordingError = new Error(
-              //     jsonResponse.error?.message ||
-              //       'Sorry, the services is only available in Hong Kong, please retry after arriving in Hong Kong, thank you. \n 抱歉，本服務只限於香港境內進行，請於抵達香港範圍後進行，謝謝。'
-              //   );
-              //   recordingError.code = jsonResponse.error?.code;
-              //   setLoading(false);
-              //   setHK(false);
-              //   return Promise.reject(recordingError);
-              // }
               console.log('ip address', data.ip);
               const checkVpnByIp = await fetch(
                 `https://t3h-geolocation-uccixrya5a-de.a.run.app/isVPN?ip_address=${data.ip}`,
@@ -253,6 +252,12 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
           </Grid>
         </Grid>
       </Grid>
+      <CommonDialog
+        open={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+        }}
+      />
     </>
   );
 }
