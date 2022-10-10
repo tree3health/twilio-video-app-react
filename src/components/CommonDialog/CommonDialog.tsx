@@ -14,15 +14,25 @@ interface CommonDialogProps {
 
 function CommonDialog({ open, onClose }: PropsWithChildren<CommonDialogProps>) {
   return (
-    <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="xs">
-      <DialogTitle style={{ fontWeight: 'bold' }}>注意 Notice</DialogTitle>
+    <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="sm">
+      <div style={{ fontWeight: 'bold', fontSize: 30, padding: 23 }}>注意 Notice</div>
       <Divider />
       <DialogContent>
-        <DialogContentText style={{ marginBottom: 10 }}>請預備好向醫生表述：</DialogContentText>
-        <DialogContentText style={{ marginBottom: 0 }}>1. 您的受傷是否意外引致及如何發生。</DialogContentText>
-        <DialogContentText style={{ marginBottom: 0 }}>2. 是否需要意外保險索償？</DialogContentText>
-        <DialogContentText style={{ marginBottom: 0 }}>3. 發生詳情：例如日期、時間、地點及經過</DialogContentText>
-        <DialogContentText style={{ marginBottom: 0 }}>4. 受傷情況：例如有無紅腫或瘀傷等</DialogContentText>
+        <DialogContentText style={{ marginBottom: 10, color: 'black', fontSize: 27 }}>
+          請預備好向醫生表述：
+        </DialogContentText>
+        <DialogContentText style={{ marginBottom: 0, color: 'black', fontSize: 27 }}>
+          1. 您的受傷是否意外引致及如何發生。
+        </DialogContentText>
+        <DialogContentText style={{ marginBottom: 0, color: 'black', fontSize: 27 }}>
+          2. 是否需要意外保險索償？
+        </DialogContentText>
+        <DialogContentText style={{ marginBottom: 0, color: 'black', fontSize: 27 }}>
+          3. 發生詳情：例如日期、時間、地點及經過
+        </DialogContentText>
+        <DialogContentText style={{ marginBottom: 0, color: 'black', fontSize: 27 }}>
+          4. 受傷情況：例如有無紅腫或瘀傷等
+        </DialogContentText>
       </DialogContent>
       <Divider />
       <DialogActions>

@@ -108,7 +108,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
 
   useEffect(() => {
     const type = queryParams.get('type');
-    if (type === 'i') {
+    if (type === 'p') {
       setDialogOpen(true);
     }
   }, []);
