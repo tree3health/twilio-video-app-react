@@ -8,10 +8,11 @@ WORKDIR /usr/src/app
 COPY . .
 # Install app dependencies
 RUN npm install
-
-
+RUN npm install --global serve
 ARG REACT_APP_TOKEN_ENDPOINT
 ENV REACT_APP_TOKEN_ENDPOINT ${REACT_APP_TOKEN_ENDPOINT}
+RUN npm build
 
 EXPOSE 3000
-CMD [ "npm", "run", "dev" ]
+# CMD [ "npm", "run", "dev" ]
+CMD [ "serve", "build" ]
