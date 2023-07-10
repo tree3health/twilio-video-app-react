@@ -115,7 +115,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "proxy": "http://localhost:8081/",
+  "proxy": "https://t3h-vc-staging-uccixrya5a-de.a.run.app/",
   "jest": {
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
