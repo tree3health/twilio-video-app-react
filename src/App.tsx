@@ -10,8 +10,9 @@ import Room from './components/Room/Room';
 
 import useHeight from './hooks/useHeight/useHeight';
 import useRoomState from './hooks/useRoomState/useRoomState';
+import { StyledComponentProps } from '@material-ui/core';
 
-const Container = styled('div')({
+const Container = styled('div')<StyledComponentProps>({
   display: 'grid',
   gridTemplateRows: '1fr auto',
 });

@@ -12,7 +12,9 @@ describe('the useSelectedParticipant hook', () => {
 
   beforeEach(() => {
     ({ result } = renderHook(useSelectedParticipant, {
-      wrapper: ({ children }) => <SelectedParticipantProvider room={mockRoom}>{children}</SelectedParticipantProvider>,
+      wrapper: ({ children }: { children: React.ReactNode }) => (
+        <SelectedParticipantProvider room={mockRoom}>{children}</SelectedParticipantProvider>
+      ),
     }));
   });
 

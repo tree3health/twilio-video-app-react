@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { RecordingRules } from '../../types';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -38,7 +39,7 @@ export default function useFirebaseAuth() {
   );
 
   const updateRecordingRules = useCallback(
-    async (room_sid, rules) => {
+    async (room_sid: string, rules: RecordingRules) => {
       const headers = new window.Headers();
 
       const idToken = await user!.getIdToken();

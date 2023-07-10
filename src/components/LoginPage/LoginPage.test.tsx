@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginPage from './LoginPage';
-import { act, fireEvent, render, waitForElement } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { useAppState } from '../../state';
 import { useLocation, useHistory } from 'react-router-dom';
 
@@ -106,7 +106,7 @@ describe('the LoginPage component', () => {
         fireEvent.submit(getByText('Submit'));
       });
 
-      const element = await waitForElement(() => getByText('Test Error'));
+      const element = await waitFor(() => getByText('Test Error'));
       expect(element).toBeTruthy();
     });
   });

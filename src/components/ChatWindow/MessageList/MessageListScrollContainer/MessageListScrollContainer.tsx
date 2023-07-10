@@ -43,6 +43,7 @@ const styles = createStyles({
 
 interface MessageListScrollContainerProps extends WithStyles<typeof styles> {
   messages: Message[];
+  children?: React.ReactNode;
 }
 
 interface MessageListScrollContainerState {

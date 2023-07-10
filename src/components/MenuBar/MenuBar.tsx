@@ -7,7 +7,7 @@ import { isMobile } from '../../utils';
 import Menu from './Menu/Menu';
 import useRoomState from '../../hooks/useRoomState/useRoomState';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
-import { Typography, Grid, Hidden } from '@material-ui/core';
+import { Typography, Grid, styled } from '@material-ui/core';
 import ToggleAudioButton from '../Buttons/ToggleAudioButton/ToggleAudioButton';
 import ToggleChatButton from '../Buttons/ToggleChatButton/ToggleChatButton';
 import ToggleVideoButton from '../Buttons/ToggleVideoButton/ToggleVideoButton';
@@ -62,6 +62,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const CustomHidden = styled('div')({
+  '@media (max-width: 600px)': {
+    display: 'none',
+  },
+});
+
 export default function MenuBar() {
   const classes = useStyles();
   const { isSharingScreen, toggleScreenShare } = useVideoContext();
@@ -79,29 +85,29 @@ export default function MenuBar() {
       )}
       <footer className={classes.container}>
         <Grid container justifyContent="space-around" alignItems="center">
-          <Hidden smDown>
+          <CustomHidden>
             <Grid style={{ flex: 1 }}>
               <Typography variant="body1">{room!.name}</Typography>
             </Grid>
-          </Hidden>
+          </CustomHidden>
           <Grid item>
             <Grid container justifyContent="center">
               <ToggleAudioButton disabled={isReconnecting} />
               <ToggleVideoButton disabled={isReconnecting} />
               {!isSharingScreen && !isMobile && <ToggleScreenShareButton disabled={isReconnecting} />}
               {process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && <ToggleChatButton />}
-              <Hidden smDown>
+              <CustomHidden>
                 <Menu />
-              </Hidden>
+              </CustomHidden>
             </Grid>
           </Grid>
-          <Hidden smDown>
+          <CustomHidden>
             <Grid style={{ flex: 1 }}>
               <Grid container justifyContent="flex-end">
                 <EndCallButton />
               </Grid>
             </Grid>
-          </Hidden>
+          </CustomHidden>
         </Grid>
       </footer>
     </>

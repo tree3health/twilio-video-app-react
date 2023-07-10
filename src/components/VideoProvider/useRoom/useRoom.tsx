@@ -19,7 +19,7 @@ export default function useRoom(localTracks: LocalTrack[], onError: Callback, op
   }, [options]);
 
   const connect = useCallback(
-    token => {
+    (token: string) => {
       setIsConnecting(true);
       return Video.connect(token, { ...optionsRef.current, tracks: localTracks }).then(
         newRoom => {

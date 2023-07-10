@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, Typography, Grid, Button, Theme, Hidden, Backdrop } from '@material-ui/core';
+import { makeStyles, Typography, Grid, Button, Theme, Hidden, Backdrop, styled } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview';
 import SettingsMenu from './SettingsMenu/SettingsMenu';
@@ -10,6 +10,7 @@ import { useAppState } from '../../../state';
 import useChatContext from '../../../hooks/useChatContext/useChatContext';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
 import CommonDialog from '../../CommonDialog/CommonDialog';
+import theme from '../../../theme';
 
 const useStyles = makeStyles((theme: Theme) => ({
   gutterBottom: {
@@ -74,6 +75,18 @@ interface DeviceSelectionScreenProps {
   roomName: string;
   setStep: (step: Steps) => void;
 }
+
+const CustomHiddenSmDown = styled('div')({
+  '@media (max-width: 600px)': {
+    display: 'none',
+  },
+});
+
+const CustomHiddenMdUp = styled('div')({
+  '@media (min-width: 960px)': {
+    display: 'none',
+  },
+});
 
 export default function DeviceSelectionScreen({ name, roomName, setStep }: DeviceSelectionScreenProps) {
   const classes = useStyles();
@@ -215,20 +228,20 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
             <LocalVideoPreview identity={name} />
           </div>
           <div className={classes.mobileButtonBar}>
-            <Hidden mdUp>
+            <CustomHiddenMdUp>
               <ToggleAudioButton className={classes.mobileButton} disabled={disableButtons} />
               <ToggleVideoButton className={classes.mobileButton} disabled={disableButtons} />
-            </Hidden>
+            </CustomHiddenMdUp>
             {/* <SettingsMenu mobileButtonClass={classes.mobileButton} /> */}
           </div>
         </Grid>
         <Grid item md={5} sm={12} xs={12}>
           <Grid container direction="column" justifyContent="space-between" style={{ height: '100%' }}>
             <div>
-              <Hidden smDown>
+              <CustomHiddenSmDown>
                 <ToggleAudioButton className={classes.deviceButton} disabled={disableButtons} />
                 <ToggleVideoButton className={classes.deviceButton} disabled={disableButtons} />
-              </Hidden>
+              </CustomHiddenSmDown>
             </div>
             <div className={classes.joinButtons}>
               <Button

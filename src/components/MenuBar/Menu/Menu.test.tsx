@@ -8,7 +8,7 @@ import Menu from './Menu';
 import MenuContainer from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { shallow } from 'enzyme';
-import { render, fireEvent, waitForElement } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import { useAppState } from '../../../state';
 import useChatContext from '../../../hooks/useChatContext/useChatContext';
@@ -74,7 +74,7 @@ describe('the Menu component', () => {
         fireEvent.click(getByText('Stop Recording'));
 
         expect(mockUpdateRecordingRules).toHaveBeenCalledWith('mockRoomSid', [{ all: true, type: 'exclude' }]);
-        waitForElement(() => getByText('You can view the recording in the Twilio Console'));
+        waitFor(() => getByText('You can view the recording in the Twilio Console'));
       });
     });
 

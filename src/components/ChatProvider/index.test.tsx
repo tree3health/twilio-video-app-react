@@ -15,7 +15,7 @@ const mockClientCreate = Client.create as jest.Mock<any>;
 
 const mockRoom = { sid: 'mockRoomSid' };
 
-const wrapper: React.FC = ({ children }) => <ChatProvider>{children}</ChatProvider>;
+const wrapper: React.FC = ({ children }: any) => <ChatProvider>{children}</ChatProvider>;
 
 describe('the ChatProvider component', () => {
   beforeEach(() => {
