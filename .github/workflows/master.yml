@@ -29,7 +29,7 @@ jobs:
 
         - name: Docker Build
           run: | 
-            docker build . --build-arg REACT_APP_TOKEN_ENDPOINT=${{ secrets.STAG_REACT_APP_TOKEN_ENDPOINT }} \
+            docker build -f dockerfile --build-arg REACT_APP_TOKEN_ENDPOINT=${{ secrets.STAG_REACT_APP_TOKEN_ENDPOINT }} \
             -t $IMAGE_NAME .
         - name: Docker Push
           run: docker push $IMAGE_NAME
