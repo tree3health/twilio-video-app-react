@@ -79,20 +79,18 @@ export default function Menu(props: { buttonClassName?: string }) {
           <Typography variant="body1">Audio and Video Settings 音頻和視頻設置</Typography>
         </MenuItem>
 
-        {isSupported && (
-          <MenuItem
-            onClick={() => {
-              setIsBackgroundSelectionOpen(true);
-              setIsChatWindowOpen(false);
-              setMenuOpen(false);
-            }}
-          >
-            <IconContainer>
-              <BackgroundIcon />
-            </IconContainer>
-            <Typography variant="body1">Backgrounds 背景</Typography>
-          </MenuItem>
-        )}
+        <MenuItem
+          onClick={() => {
+            setIsBackgroundSelectionOpen(true);
+            setIsChatWindowOpen(false);
+            setMenuOpen(false);
+          }}
+        >
+          <IconContainer>
+            <BackgroundIcon />
+          </IconContainer>
+          <Typography variant="body1">Backgrounds 背景</Typography>
+        </MenuItem>
 
         {flipCameraSupported && (
           <MenuItem disabled={flipCameraDisabled} onClick={toggleFacingMode}>
