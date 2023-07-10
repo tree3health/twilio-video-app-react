@@ -11,7 +11,7 @@ RUN npm install
 RUN npm install --global serve
 ARG REACT_APP_TOKEN_ENDPOINT
 ENV REACT_APP_TOKEN_ENDPOINT ${REACT_APP_TOKEN_ENDPOINT}
-RUN npm build
+RUN npm run build
 
 EXPOSE 3000
 # CMD [ "npm", "run", "dev" ]
