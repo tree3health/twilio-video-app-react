@@ -1,0 +1,45 @@
+name: Docker
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+    deploy:
+
+        name: Staging Pipeline with Google Cloud Run
+        runs-on: ubuntu-latest
+        env:
+          IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.STAG_GCP_APP_NAME }}:latest
+        steps:
+
+        - name: Login
+          uses: google-github-actions/setup-gcloud@v0
+          with:
+            project_id: ${{ secrets.GCP_PROJECT_ID }}
+            service_account_email: ${{ secrets.GCP_EMAIL }}
+            service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+
+        - name: Configure Docker
+          run: gcloud auth configure-docker --quiet
+
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Docker Build
+          run: | 
+            docker build \
+            --build-arg REACT_APP_TOKEN_ENDPOINT=${{ secrets.STAG_REACT_APP_TOKEN_ENDPOINT }} \
+            -t $IMAGE_NAME .
+        - name: Docker Push
+          run: docker push $IMAGE_NAME
+
+        - name: Docker Run
+          run: | 
+            gcloud run deploy ${{ secrets.STAG_GCP_APP_NAME }} \
+            --image $IMAGE_NAME \
+            --port 3000 \
+            --platform managed \
+            --region asia-east1 \
+            --allow-unauthenticated
