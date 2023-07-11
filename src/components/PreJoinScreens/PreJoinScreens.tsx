@@ -24,25 +24,20 @@ export default function PreJoinScreens() {
 
   useEffect(() => {
     const username = queryParams.get('name');
-    const room = queryParams.get('room');
+    const room = queryParams.get('roomName');
     if (room && username) {
       setRoomName(room);
       if (name === '') {
-        setName(
-          Math.random()
-            .toString(36)
-            .substr(2, 5) +
-            ' ' +
-            username
-        );
+        setName(username);
       }
 
-      // if (user?.displayName) {
-      //   setStep(Steps.deviceSelectionStep);
-      // }
       setStep(Steps.deviceSelectionStep);
     }
   }, [user, name]);
+
+  useEffect(() => {
+    console.log('permission twilio1', navigator.mediaDevices.enumerateDevices());
+  }, []);
 
   useEffect(() => {
     if (step === Steps.deviceSelectionStep && !mediaError) {
