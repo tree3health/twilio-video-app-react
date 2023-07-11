@@ -21,22 +21,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   deviceButton: {
     width: '100%',
     border: '2px solid #aaa',
-    margin: '1em 0',
+    marginBottom: '1em',
   },
   localPreviewContainer: {
     paddingRight: '2em',
     [theme.breakpoints.down('sm')]: {
-      padding: '0 2.5em',
+      padding: '0',
     },
   },
   joinButtons: {
     display: 'flex',
-    justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column-reverse',
       width: '100%',
       '& button': {
         margin: '0.5em 0',
+        width: '100%',
       },
     },
   },
@@ -205,7 +205,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       <Backdrop style={{ zIndex: 99999, color: '#fff' }} open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Typography variant="h5" className={classes.gutterBottom}>
+      <Typography variant="h6" className={classes.gutterBottom}>
         Join 加入 <div>{roomName}</div>
       </Typography>
 
@@ -223,32 +223,23 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
           </div>
         </Grid>
         <Grid item md={5} sm={12} xs={12}>
-          <Grid container direction="column" justifyContent="space-between" style={{ height: '100%' }}>
+          <Grid container direction="column" justifyContent="space-between" style={{ height: '100%', width: '100%' }}>
             <div>
               <Hidden smDown>
                 <ToggleAudioButton className={classes.deviceButton} disabled={disableButtons} />
                 <ToggleVideoButton className={classes.deviceButton} disabled={disableButtons} />
               </Hidden>
             </div>
-            <div className={classes.joinButtons}>
-              <Button
-                style={{ marginRight: '10px' }}
-                variant="outlined"
-                color="primary"
-                onClick={() => setStep(Steps.roomNameStep)}
-              >
-                Cancel 取消
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                data-cy-join-now
-                onClick={handleJoin}
-                disabled={disableButton}
-              >
-                Join Now 加入
-              </Button>
-            </div>
+            <Button
+              className={classes.joinButtons}
+              variant="contained"
+              color="primary"
+              data-cy-join-now
+              onClick={handleJoin}
+              disabled={disableButton}
+            >
+              Join Now 加入
+            </Button>
           </Grid>
         </Grid>
       </Grid>

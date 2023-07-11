@@ -36,7 +36,9 @@ export default function PreJoinScreens() {
   }, [user, name]);
 
   useEffect(() => {
-    console.log('permission twilio1', navigator.mediaDevices.enumerateDevices());
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(res => {
+      console.log('res', res);
+    });
   }, []);
 
   useEffect(() => {

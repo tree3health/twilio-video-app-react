@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Theme, Typography } from '@material-ui/core';
-import Swoosh from './swoosh';
+import Logo from './Logo.png';
 import VideoLogo from './VideoLogo';
 import TwilioLogo from './TwilioLogo';
 import { useAppState } from '../../state';
@@ -41,13 +41,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundImage: Swoosh,
-    backgroundSize: 'cover',
-    width: '296px',
+    background: 'white',
+    width: '250px',
+    borderRight: '1px solid #ccc',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       height: '100px',
       backgroundPositionY: '140px',
+      borderBottom: '1px solid #ccc',
     },
   },
   logoContainer: {
@@ -57,10 +58,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'center',
       width: '90%',
       textAlign: 'initial',
-      '& svg': {
+      '& img': {
         height: '64px',
+        width: '64px',
       },
     },
   },
@@ -80,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   title: {
-    color: 'white',
+    color: 'black',
     margin: '1em 0 0',
     [theme.breakpoints.down('sm')]: {
       margin: 0,
@@ -95,22 +98,18 @@ interface IntroContainerProps {
 
 const IntroContainer = (props: IntroContainerProps) => {
   const classes = useStyles();
-  const { user } = useAppState();
-  const location = useLocation();
 
   return (
     <div className={classes.background}>
-      {/* <TwilioLogo className={classes.twilioLogo} /> */}
-      {user && location.pathname !== '/login' && <UserMenu />}
       <div className={classes.container}>
         <div className={classes.innerContainer}>
           <div className={classes.swooshContainer}>
-            {/* <div className={classes.logoContainer}>
-              <VideoLogo />
-              <Typography variant="h6" className={classes.title}>
-                Twilio Programmable Video
-              </Typography>
-            </div> */}
+            <div className={classes.logoContainer}>
+              <img src={Logo} width={96} height={96} alt={'logo'} />
+              {/*<Typography variant="h6" className={classes.title}>*/}
+              {/*  Twilio Programmable Video*/}
+              {/*</Typography>*/}
+            </div>
           </div>
           <div className={classes.content}>{props.children}</div>
         </div>
