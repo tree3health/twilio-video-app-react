@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   identityContainer: {
     position: 'absolute',
     bottom: 0,
+    right: 0,
     zIndex: 1,
   },
   identity: {

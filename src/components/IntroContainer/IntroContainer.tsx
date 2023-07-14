@@ -1,121 +1,61 @@
 import React from 'react';
-import { makeStyles, Theme, Typography } from '@material-ui/core';
-import Logo from './Logo.png';
-import VideoLogo from './VideoLogo';
-import TwilioLogo from './TwilioLogo';
-import { useAppState } from '../../state';
-import UserMenu from './UserMenu/UserMenu';
-import { useLocation } from 'react-router-dom';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  background: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'rgb(40, 42, 43)',
-    height: '100%',
-  },
-  container: {
-    position: 'relative',
-    flex: '1',
-  },
-  innerContainer: {
-    display: 'flex',
-    width: '888px',
-    height: '379px',
-    borderRadius: '8px',
-    boxShadow: '0px 2px 4px 0px rgba(40, 42, 43, 0.3)',
-    overflow: 'hidden',
-    position: 'relative',
-    margin: 'auto',
-    [theme.breakpoints.down('sm')]: {
-      display: 'block',
-      height: 'auto',
-      width: 'calc(100% - 40px)',
-      margin: 'auto',
-      maxWidth: '400px',
-    },
-  },
-  swooshContainer: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'white',
-    width: '250px',
-    borderRight: '1px solid #ccc',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: '100px',
-      backgroundPositionY: '140px',
-      borderBottom: '1px solid #ccc',
-    },
-  },
-  logoContainer: {
-    position: 'absolute',
-    width: '210px',
-    textAlign: 'center',
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '90%',
-      textAlign: 'initial',
-      '& img': {
-        height: '64px',
-        width: '64px',
-      },
-    },
-  },
-  twilioLogo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    margin: '20px',
-  },
-  content: {
-    background: 'white',
-    width: '100%',
-    padding: '4em',
-    flex: 1,
-    [theme.breakpoints.down('sm')]: {
-      padding: '2em',
-    },
-  },
-  title: {
-    color: 'black',
-    margin: '1em 0 0',
-    [theme.breakpoints.down('sm')]: {
-      margin: 0,
-      fontSize: '1.1rem',
-    },
-  },
-}));
+import styled from '@emotion/styled';
 
 interface IntroContainerProps {
   children: React.ReactNode;
 }
 
-const IntroContainer = (props: IntroContainerProps) => {
-  const classes = useStyles();
-
+const IntroContainer = ({ children }: IntroContainerProps) => {
   return (
-    <div className={classes.background}>
-      <div className={classes.container}>
-        <div className={classes.innerContainer}>
-          <div className={classes.swooshContainer}>
-            <div className={classes.logoContainer}>
-              <img src={Logo} width={96} height={96} alt={'logo'} />
-              {/*<Typography variant="h6" className={classes.title}>*/}
-              {/*  Twilio Programmable Video*/}
-              {/*</Typography>*/}
-            </div>
-          </div>
-          <div className={classes.content}>{props.children}</div>
-        </div>
-      </div>
-    </div>
+    <Background>
+      <Container>
+        <InnerContainer>
+          <Content>{children}</Content>
+        </InnerContainer>
+      </Container>
+    </Background>
   );
 };
+
+const Background = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(40, 42, 43);
+  height: 100%;
+`;
+
+const Container = styled.div`
+  position: relative;
+  flex: 1;
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  box-shadow: 0px 2px 4px 0px rgba(40, 42, 43, 0.3);
+  overflow: hidden;
+  position: relative;
+  padding: 0 5rem;
+  margin: auto;
+
+  @media (max-width: 600px) {
+    display: block;
+    height: auto;
+    width: calc(100% - 40px);
+    margin: auto;
+    max-width: 400px;
+  }
+`;
+
+const Content = styled.div`
+  background: white;
+  width: 100%;
+  padding: 4em;
+  flex: 1;
+
+  @media (max-width: 600px) {
+    padding: 2em;
+  }
+`;
 
 export default IntroContainer;

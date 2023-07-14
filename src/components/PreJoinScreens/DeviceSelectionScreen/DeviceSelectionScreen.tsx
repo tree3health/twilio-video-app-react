@@ -10,6 +10,7 @@ import { useAppState } from '../../../state';
 import useChatContext from '../../../hooks/useChatContext/useChatContext';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
 import CommonDialog from '../../CommonDialog/CommonDialog';
+import styled from '@emotion/styled';
 
 const useStyles = makeStyles((theme: Theme) => ({
   gutterBottom: {
@@ -186,17 +187,13 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
 
   if (isFetching || isConnecting) {
     return (
-      <Grid container justifyContent="center" alignItems="center" direction="column" style={{ height: '100%' }}>
-        <div>
+      <LoadingContainer>
+        <LoadingContent>
           <CircularProgress variant="indeterminate" />
-        </div>
-        <div>
-          <Typography variant="body2" style={{ fontWeight: 'bold', fontSize: '16px' }}>
-            <div>Joining Meeting</div>
-            <div>加入會議</div>
-          </Typography>
-        </div>
-      </Grid>
+          <div>Joining Meeting</div>
+          <div>加入會議</div>
+        </LoadingContent>
+      </LoadingContainer>
     );
   }
 
@@ -205,44 +202,22 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       <Backdrop style={{ zIndex: 99999, color: '#fff' }} open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Typography variant="h6" className={classes.gutterBottom}>
-        Join 加入 <div>{roomName}</div>
-      </Typography>
+      <GutterBottomTypography>Join 加入 {roomName}</GutterBottomTypography>
 
-      <Grid container justifyContent="center">
-        <Grid item md={7} sm={12} xs={12}>
-          <div className={classes.localPreviewContainer}>
-            <LocalVideoPreview identity={name} />
+      <div>
+        <LocalPreviewContainer>
+          <LocalVideoPreview identity={name} />
+        </LocalPreviewContainer>
+        <div>
+          <div>
+            <ToggleAudioButton disabled={disableButtons} />
+            <ToggleVideoButton disabled={disableButtons} />
           </div>
-          <div className={classes.mobileButtonBar}>
-            <Hidden mdUp>
-              <ToggleAudioButton className={classes.mobileButton} disabled={disableButtons} />
-              <ToggleVideoButton className={classes.mobileButton} disabled={disableButtons} />
-            </Hidden>
-            {/* <SettingsMenu mobileButtonClass={classes.mobileButton} /> */}
-          </div>
-        </Grid>
-        <Grid item md={5} sm={12} xs={12}>
-          <Grid container direction="column" justifyContent="space-between" style={{ height: '100%', width: '100%' }}>
-            <div>
-              <Hidden smDown>
-                <ToggleAudioButton className={classes.deviceButton} disabled={disableButtons} />
-                <ToggleVideoButton className={classes.deviceButton} disabled={disableButtons} />
-              </Hidden>
-            </div>
-            <Button
-              className={classes.joinButtons}
-              variant="contained"
-              color="primary"
-              data-cy-join-now
-              onClick={handleJoin}
-              disabled={disableButton}
-            >
-              Join Now 加入
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
+          <button color="primary" data-cy-join-now onClick={handleJoin} disabled={disableButton}>
+            Join Now 加入
+          </button>
+        </div>
+      </div>
       <CommonDialog
         open={dialogOpen}
         onClose={() => {
@@ -252,3 +227,65 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
     </>
   );
 }
+
+const LoadingContainer = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  height: 100%;
+`;
+
+const LoadingContent = styled('div')`
+  text-align: center;
+`;
+
+const Container = styled('div')`
+  position: relative;
+  flex: 1;
+`;
+
+const GutterBottomTypography = styled('div')`
+  margin-bottom: 1em;
+`;
+
+const GutterTopTypography = styled('div')`
+  margin-top: 1em;
+`;
+
+const DeviceButton = styled('button')`
+  width: 100%;
+  border: 2px solid #aaa;
+  margin-bottom: 1em;
+`;
+
+const LocalPreviewContainer = styled('div')`
+  padding: 0;
+`;
+
+const JoinButtons = styled('div')`
+  display: flex;
+
+  @media (max-width: 600px) {
+    flex-direction: column-reverse;
+    width: 100%;
+
+    & button {
+      margin: 0.5em 0;
+      width: 100%;
+    }
+  }
+`;
+
+const MobileButtonBar = styled('div')`
+  @media (max-width: 600px) {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5em 0 1em;
+  }
+`;
+
+const MobileButton = styled('button')`
+  padding: 0.8em 0;
+  margin: 0;
+`;
