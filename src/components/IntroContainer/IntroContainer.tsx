@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { media } from '../../mq';
 
 interface IntroContainerProps {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ const Background = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(40, 42, 43);
+  background: rgba(40, 42, 43, 0.7);
   height: 100%;
 `;
 
@@ -32,30 +33,23 @@ const Container = styled.div`
 
 const InnerContainer = styled.div`
   display: flex;
-  box-shadow: 0px 2px 4px 0px rgba(40, 42, 43, 0.3);
   overflow: hidden;
   position: relative;
-  padding: 0 5rem;
+  padding: 0 3rem;
   margin: auto;
 
-  @media (max-width: 600px) {
+  ${media.mobile`
     display: block;
     height: auto;
-    width: calc(100% - 40px);
-    margin: auto;
-    max-width: 400px;
-  }
+    width: 100%;
+    padding: 0;
+  `}
 `;
 
 const Content = styled.div`
-  background: white;
   width: 100%;
-  padding: 4em;
   flex: 1;
-
-  @media (max-width: 600px) {
-    padding: 2em;
-  }
+  box-shadow: 0px 10px 10px 0px rgba(40, 42, 43, 1);
 `;
 
 export default IntroContainer;

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, Typography, Grid, Button, Theme, Hidden, Backdrop } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview';
-import SettingsMenu from './SettingsMenu/SettingsMenu';
 import { Steps } from '../PreJoinScreens';
 import ToggleAudioButton from '../../Buttons/ToggleAudioButton/ToggleAudioButton';
 import ToggleVideoButton from '../../Buttons/ToggleVideoButton/ToggleVideoButton';
@@ -11,48 +10,7 @@ import useChatContext from '../../../hooks/useChatContext/useChatContext';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
 import CommonDialog from '../../CommonDialog/CommonDialog';
 import styled from '@emotion/styled';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  gutterBottom: {
-    marginBottom: '1em',
-  },
-  marginTop: {
-    marginTop: '1em',
-  },
-  deviceButton: {
-    width: '100%',
-    border: '2px solid #aaa',
-    marginBottom: '1em',
-  },
-  localPreviewContainer: {
-    paddingRight: '2em',
-    [theme.breakpoints.down('sm')]: {
-      padding: '0',
-    },
-  },
-  joinButtons: {
-    display: 'flex',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column-reverse',
-      width: '100%',
-      '& button': {
-        margin: '0.5em 0',
-        width: '100%',
-      },
-    },
-  },
-  mobileButtonBar: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      margin: '1.5em 0 1em',
-    },
-  },
-  mobileButton: {
-    padding: '0.8em 0',
-    margin: 0,
-  },
-}));
+import { media } from '../../../mq';
 
 const errorMessage = {
   notInHk:
@@ -77,7 +35,6 @@ interface DeviceSelectionScreenProps {
 }
 
 export default function DeviceSelectionScreen({ name, roomName, setStep }: DeviceSelectionScreenProps) {
-  const classes = useStyles();
   const { getToken, isFetching, setError } = useAppState();
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
@@ -199,25 +156,18 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
 
   return (
     <>
-      <Backdrop style={{ zIndex: 99999, color: '#fff' }} open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      <GutterBottomTypography>Join 加入 {roomName}</GutterBottomTypography>
-
-      <div>
-        <LocalPreviewContainer>
-          <LocalVideoPreview identity={name} />
-        </LocalPreviewContainer>
-        <div>
-          <div>
-            <ToggleAudioButton disabled={disableButtons} />
-            <ToggleVideoButton disabled={disableButtons} />
-          </div>
-          <button color="primary" data-cy-join-now onClick={handleJoin} disabled={disableButton}>
-            Join Now 加入
-          </button>
-        </div>
-      </div>
+      <LocalPreviewContainer>
+        <LocalVideoPreview identity={name} />
+      </LocalPreviewContainer>
+      <ButtonContainer>
+        <ToggleButtonContainer>
+          <StyledAudioButton disabled={disableButtons} />
+          <StyledVideoButton disabled={disableButtons} />
+        </ToggleButtonContainer>
+        <JoinButtons color="primary" data-cy-join-now onClick={handleJoin} disabled={disableButton}>
+          Join Now 加入
+        </JoinButtons>
+      </ButtonContainer>
       <CommonDialog
         open={dialogOpen}
         onClose={() => {
@@ -234,58 +184,73 @@ const LoadingContainer = styled('div')`
   justify-content: center;
   background-color: white;
   height: 100%;
+  padding: 5rem;
+  border-radius: 6px;
 `;
 
 const LoadingContent = styled('div')`
   text-align: center;
 `;
 
-const Container = styled('div')`
-  position: relative;
-  flex: 1;
+const ButtonContainer = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+
+  ${media.tablet`
+    padding: 0.3rem 1rem;
+    border-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  `}
+
+  ${media.mobile`
+    padding: 0.3rem 1rem;
+    border-radius: 0;
+  `}
 `;
 
-const GutterBottomTypography = styled('div')`
-  margin-bottom: 1em;
+const ToggleButtonContainer = styled('div')`
+  display: flex;
 `;
 
-const GutterTopTypography = styled('div')`
-  margin-top: 1em;
-`;
-
-const DeviceButton = styled('button')`
-  width: 100%;
-  border: 2px solid #aaa;
-  margin-bottom: 1em;
-`;
-
-const LocalPreviewContainer = styled('div')`
+const StyledAudioButton = styled(ToggleAudioButton)`
   padding: 0;
 `;
 
-const JoinButtons = styled('div')`
+const StyledVideoButton = styled(ToggleVideoButton)`
+  padding: 0;
+`;
+
+const LocalPreviewContainer = styled('div')`
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-top: calc((9 / 16) * 100%);
+  background-color: black;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+`;
+
+const JoinButtons = styled(Button)`
   display: flex;
+  background-color: #3b338c;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  color: white;
 
-  @media (max-width: 600px) {
+  &:hover {
+    background-color: #271c66;
+  }
+
+  ${media.mobile`
     flex-direction: column-reverse;
-    width: 100%;
-
-    & button {
-      margin: 0.5em 0;
-      width: 100%;
-    }
-  }
-`;
-
-const MobileButtonBar = styled('div')`
-  @media (max-width: 600px) {
-    display: flex;
-    justify-content: space-between;
-    margin: 1.5em 0 1em;
-  }
-`;
-
-const MobileButton = styled('button')`
-  padding: 0.8em 0;
-  margin: 0;
+    width: fit-content;
+  `}
 `;

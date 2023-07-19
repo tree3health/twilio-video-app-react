@@ -36,12 +36,6 @@ export default function PreJoinScreens() {
   }, [user, name]);
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(res => {
-      console.log('res', res);
-    });
-  }, []);
-
-  useEffect(() => {
     if (step === Steps.deviceSelectionStep && !mediaError) {
       getAudioAndVideoTracks().catch(error => {
         console.log('Error acquiring local media:');

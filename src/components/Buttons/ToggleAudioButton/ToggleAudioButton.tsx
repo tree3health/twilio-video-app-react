@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Button from '@material-ui/core/Button';
 import MicIcon from '../../../icons/MicIcon';
 import MicOffIcon from '../../../icons/MicOffIcon';
 
 import useLocalAudioToggle from '../../../hooks/useLocalAudioToggle/useLocalAudioToggle';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
+import styled from '@emotion/styled';
+import { Switch } from '@material-ui/core';
 
 export default function ToggleAudioButton(props: { disabled?: boolean; className?: string }) {
   const [isAudioEnabled, toggleAudioEnabled] = useLocalAudioToggle();
@@ -13,14 +14,25 @@ export default function ToggleAudioButton(props: { disabled?: boolean; className
   const hasAudioTrack = localTracks.some(track => track.kind === 'audio');
 
   return (
-    <Button
-      className={props.className}
-      onClick={toggleAudioEnabled}
-      disabled={!hasAudioTrack || props.disabled}
-      startIcon={isAudioEnabled ? <MicIcon /> : <MicOffIcon />}
-      data-cy-audio-toggle
-    >
-      {!hasAudioTrack ? 'No Audio 沒有音效' : isAudioEnabled ? 'Mute 靜音' : 'Unmute 取消靜音'}
-    </Button>
+    <ToggleAudioButtonContainer>
+      {isAudioEnabled ? <MicIcon /> : <MicOffIcon />}
+      <StyledSwitch checked={isAudioEnabled} onClick={toggleAudioEnabled} disabled={!hasAudioTrack || props.disabled} />
+    </ToggleAudioButtonContainer>
   );
 }
+
+const ToggleAudioButtonContainer = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledSwitch = styled(Switch)`
+  .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color: #3b338c;
+  }
+
+  .MuiSwitch-colorSecondary.Mui-checked {
+    color: #3b338c;
+  }
+`;

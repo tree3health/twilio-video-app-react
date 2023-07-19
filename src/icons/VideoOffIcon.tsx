@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function VideoOffIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
       <g fill="none" fillRule="evenodd">
         <path
           fill="#707578"
@@ -10,7 +10,7 @@ export default function VideoOffIcon() {
           transform="translate(4 6)"
         />
         <path
-          fill="red"
+          fill="#707578"
           fillRule="nonzero"
           d="M13.06.144c.192-.192.503-.192.695 0 .171.17.19.436.057.627l-.057.068-12.29 12.29c-.192.193-.503.193-.695 0-.171-.17-.19-.435-.057-.626l.057-.069L13.06.144z"
           transform="translate(4 6)"

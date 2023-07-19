@@ -10,7 +10,6 @@ import StopRecordingIcon from '../../../icons/StopRecordingIcon';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '../../../icons/SettingsIcon';
 import { Button, styled, Theme, useMediaQuery, Menu as MenuContainer, MenuItem, Typography } from '@material-ui/core';
-import { isSupported } from '@twilio/video-processors';
 
 import { useAppState } from '../../../state';
 import useChatContext from '../../../hooks/useChatContext/useChatContext';

@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'relative',
     height: 0,
     overflow: 'hidden',
-    paddingTop: `${(9 / 16) * 100}%`,
-    background: 'black',
+    paddingTop: `${(7.4 / 16) * 100}%`,
+    background: 'transparent',
   },
   innerContainer: {
     position: 'absolute',
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: 0,
     display: 'flex',
     alignItems: 'center',
+    borderRadius: '0.25em 0 0 0',
   },
   avatarContainer: {
     display: 'flex',
@@ -63,7 +64,7 @@ export default function LocalVideoPreview({ identity }: { identity: string }) {
   ) as LocalVideoTrack;
 
   return (
-    <div className={classes.container}>
+    <>
       <div className={classes.innerContainer}>
         {videoTrack ? (
           <VideoTrack track={videoTrack} isLocal />
@@ -82,6 +83,6 @@ export default function LocalVideoPreview({ identity }: { identity: string }) {
           </Typography>
         </span>
       </div>
-    </div>
+    </>
   );
 }
