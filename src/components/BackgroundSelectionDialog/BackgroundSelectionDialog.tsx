@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   drawer: {
     display: 'flex',
     width: theme.rightDrawerWidth,
-    height: `calc(100% - ${theme.footerHeight}px)`,
+    height: `100%`,
   },
   thumbnailContainer: {
     display: 'flex',
@@ -32,7 +32,7 @@ function BackgroundSelectionDialog() {
       variant="persistent"
       anchor="right"
       open={isBackgroundSelectionOpen}
-      transitionDuration={0}
+      transitionDuration={500}
       classes={{
         paper: classes.drawer,
       }}

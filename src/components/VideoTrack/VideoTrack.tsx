@@ -10,9 +10,17 @@ interface VideoTrackProps {
   track: IVideoTrack;
   isLocal?: boolean;
   priority?: Track.Priority | null;
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
 }
 
-export default function VideoTrack({ track, isLocal, priority }: VideoTrackProps) {
+export default function VideoTrack({
+  track,
+  isLocal,
+  priority,
+  borderTopRightRadius,
+  borderTopLeftRadius,
+}: VideoTrackProps) {
   const ref = useRef<HTMLVideoElement>(null!);
   const mediaStreamTrack = useMediaStreamTrack(track);
   const dimensions = useVideoTrackDimensions(track);
@@ -46,16 +54,19 @@ export default function VideoTrack({ track, isLocal, priority }: VideoTrackProps
     objectFit: isPortrait || track.name.includes('screen') ? ('contain' as const) : ('cover' as const),
   };
 
-  return <Video ref={ref} style={style} />;
+  return (
+    <Video
+      ref={ref}
+      style={style}
+      borderTopLeftRadius={borderTopLeftRadius}
+      borderTopRightRadius={borderTopRightRadius}
+    />
+  );
 }
 
-const Video = styled('video')`
+const Video = styled('video')<{ borderTopRightRadius?: number; borderTopLeftRadius?: number }>`
   width: 100%;
   height: 100%;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-
-  ${media.mobile`
-    border-radius: 0;
-  `}
+  border-top-left-radius: ${({ borderTopLeftRadius }) => (borderTopLeftRadius ? borderTopLeftRadius : 0)}px;
+  border-top-right-radius: ${({ borderTopRightRadius }) => (borderTopRightRadius ? borderTopRightRadius : 0)}px;
 `;

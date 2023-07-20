@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   button: {
     float: 'right',
+    backgroundColor: '#3b338c',
   },
   paper: {
     [theme.breakpoints.down('xs')]: {

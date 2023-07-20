@@ -5,6 +5,7 @@ import LocalAudioLevelIndicator from '../../../LocalAudioLevelIndicator/LocalAud
 import { LocalVideoTrack } from 'twilio-video';
 import VideoTrack from '../../../VideoTrack/VideoTrack';
 import useVideoContext from '../../../../hooks/useVideoContext/useVideoContext';
+import { isMobile } from '../../../../utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -67,7 +68,12 @@ export default function LocalVideoPreview({ identity }: { identity: string }) {
     <>
       <div className={classes.innerContainer}>
         {videoTrack ? (
-          <VideoTrack track={videoTrack} isLocal />
+          <VideoTrack
+            track={videoTrack}
+            isLocal
+            borderTopRightRadius={isMobile ? 0 : 6}
+            borderTopLeftRadius={isMobile ? 0 : 6}
+          />
         ) : (
           <div className={classes.avatarContainer}>
             <AvatarIcon />

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: 10,
       [theme.breakpoints.down('sm')]: {
         height: `${theme.mobileFooterHeight}px`,
-        padding: 0,
+        padding: 10,
       },
     },
     screenShareBanner: {
@@ -79,7 +79,7 @@ export default function MenuBar() {
       )}
       <footer className={classes.container}>
         <Grid container justifyContent="space-around" alignItems="center">
-          <Hidden smDown>
+          <Hidden xsDown>
             <Grid style={{ flex: 1 }}>
               <Typography variant="body1">{room!.name}</Typography>
             </Grid>
@@ -88,20 +88,14 @@ export default function MenuBar() {
             <Grid container justifyContent="center">
               <ToggleAudioButton disabled={isReconnecting} />
               <ToggleVideoButton disabled={isReconnecting} />
-              {!isSharingScreen && !isMobile && <ToggleScreenShareButton disabled={isReconnecting} />}
-              {process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && <ToggleChatButton />}
-              <Hidden smDown>
-                <Menu />
-              </Hidden>
+              <Menu />
             </Grid>
           </Grid>
-          <Hidden smDown>
-            <Grid style={{ flex: 1 }}>
-              <Grid container justifyContent="flex-end">
-                <EndCallButton />
-              </Grid>
+          <Grid style={{ flex: 1 }}>
+            <Grid container justifyContent="flex-end">
+              <EndCallButton />
             </Grid>
-          </Hidden>
+          </Grid>
         </Grid>
       </footer>
     </>

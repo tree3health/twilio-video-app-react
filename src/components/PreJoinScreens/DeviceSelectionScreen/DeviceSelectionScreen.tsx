@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview';
 import { Steps } from '../PreJoinScreens';
@@ -160,12 +160,15 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
         <LocalVideoPreview identity={name} />
       </LocalPreviewContainer>
       <ButtonContainer>
+        <Grid>
+          <Typography variant="body1">{roomName}</Typography>
+        </Grid>
         <ToggleButtonContainer>
           <StyledAudioButton disabled={disableButtons} />
           <StyledVideoButton disabled={disableButtons} />
         </ToggleButtonContainer>
         <JoinButtons color="primary" data-cy-join-now onClick={handleJoin} disabled={disableButton}>
-          Join Now 加入
+          Join Now
         </JoinButtons>
       </ButtonContainer>
       <CommonDialog
@@ -202,14 +205,14 @@ const ButtonContainer = styled('div')`
   border-bottom-right-radius: 6px;
 
   ${media.tablet`
-    padding: 0.3rem 1rem;
+    padding: 5px 10px;
     border-radius: 0;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
   `}
 
   ${media.mobile`
-    padding: 0.3rem 1rem;
+    padding: 0 10px;
     border-radius: 0;
   `}
 `;
@@ -234,6 +237,11 @@ const LocalPreviewContainer = styled('div')`
   background-color: black;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+
+  ${media.mobile`
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  `}
 `;
 
 const JoinButtons = styled(Button)`
@@ -252,5 +260,6 @@ const JoinButtons = styled(Button)`
   ${media.mobile`
     flex-direction: column-reverse;
     width: fit-content;
+    padding: 3px 7px;
   `}
 `;

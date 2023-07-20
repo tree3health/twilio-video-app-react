@@ -17,14 +17,10 @@ const Container = styled('div')`
 `;
 
 const Main = styled('main')<{ theme: Theme }>`
+  height: 100%;
   overflow: hidden;
-  padding-bottom: ${({ theme }) => theme.footerHeight}px; // Leave some space for the footer
+  padding-bottom: 56px;
   background: black;
-
-  ${({ theme }) => theme.breakpoints.down('sm')} {
-    padding-bottom: ${({ theme }) =>
-      theme.mobileFooterHeight + theme.mobileTopBarHeight}px; // Leave some space for the mobile header and footer
-  }
 `;
 
 export default function App() {
@@ -49,9 +45,9 @@ export default function App() {
         <PreJoinScreens />
       ) : (
         <Main theme={theme}>
-          <ReconnectingNotification />
-          <RecordingNotifications />
-          <MobileTopMenuBar />
+          {/*<ReconnectingNotification />*/}
+          {/*<RecordingNotifications />*/}
+          {/*<MobileTopMenuBar />*/}
           <Room />
           <MenuBar />
         </Main>

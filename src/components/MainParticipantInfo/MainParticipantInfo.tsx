@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     marginRight: '0.4em',
     alignItems: 'center',
+    borderBottomRightRadius: '6px',
   },
   infoContainer: {
     position: 'absolute',
