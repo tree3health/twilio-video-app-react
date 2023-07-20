@@ -146,9 +146,8 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
     return (
       <LoadingContainer>
         <LoadingContent>
-          <CircularProgress variant="indeterminate" />
+          <StyledCircularProgress variant="indeterminate" />
           <div>Joining Meeting</div>
-          <div>加入會議</div>
         </LoadingContent>
       </LoadingContainer>
     );
@@ -262,4 +261,8 @@ const JoinButtons = styled(Button)`
     width: fit-content;
     padding: 3px 7px;
   `}
+`;
+
+const StyledCircularProgress = styled(CircularProgress)`
+  color: #3b338c;
 `;
